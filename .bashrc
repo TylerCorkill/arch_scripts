@@ -11,6 +11,7 @@
 [ -r /usr/share/bash-completion/bash_completion   ] && . /usr/share/bash-completion/bash_completion
 
 default_username='tsx525'
+default_hostname='525'
 
 if [[ $COLORTERM = gnome-* && $TERM = xterm ]] && infocmp gnome-256color >/dev/null 2>&1; then
 	export TERM=gnome-256color
@@ -56,7 +57,8 @@ function parse_git_branch() {
 
 # Only show username/host if not default
 function usernamehost() {
-	if [ $USER != $default_username ]; then echo "${MAGENTA}$USER${WHITE}|${ORANGE}$HOSTNAME$WHITE:"; fi
+	if [ $USER != $default_username ]; then echo "${MAGENTA}$USER${WHITE}|"; fi
+	if [ $HOSTNAME != $default_hostname ]; then echo "${ORANGE}$HOSTNAME$WHITE:"; fi
 }
 
 # iTerm Tab and Title Customization and prompt customization
