@@ -4,4 +4,5 @@ files = [".bashrc",
 		 ".bash_profile",
 		 ".bash_logout"]
 for f in files:
-	os.system("ln %s ../%s" % f)
+	os.system("rm ~/%s" % f)
+	os.system("ln ~/.custom/%s ~/%s" % (f,f))
