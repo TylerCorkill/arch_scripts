@@ -63,6 +63,8 @@ if length > 0:
 					sync(pac)
 			else:
 				print "Error: unknown flag: %s" % package
+		else:
+			print "Error: empty flag"
 	else:
 		sync(package)
 else:
