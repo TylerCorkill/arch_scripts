@@ -34,34 +34,35 @@ def sync(package):
 
 length = len(package)
 if length > 0:
-	if package[0] == "-" and length > 1:
-		# u for upgrade
-		if package[1] == "u":
-			forLine = re.compile("(?<=<h2>Package Details: )[\w\s\.\-]+")
-			forPackage = re.compile("[a-zA-Z\-]+")
-			process = Popen("pacman -Qm", shell=True, stdout=PIPE)
-			outOfDate = []
-			while True:
-				line = process.stdout.readline()
-				if line == "":
-					break
-				pac = forPackage.search(line).group(0)
-				url = "%s/%s/" % (baseURL, pac)
-				# print url
-				urlLines = []
-				for urlLine in urlopen(url).readlines():
-					urlLines.append(urlLine.strip())
-				for entry in urlLines:
-					detail = forLine.search(entry)
-					if detail != None:
-						# print detail.group(0), line[:-1]
-						if detail.group(0) != line[:-1]:
-							print pac
-							outOfDate.append(pac)
-			for pac in outOfDate:
-				sync(pac)
-		else:
-			print "Error: unknown flag: %s" % package
+	if package[0] == "-":
+		if length > 1:
+			# u for upgrade
+			if package[1] == "u":
+				forLine = re.compile("(?<=<h2>Package Details: )[\w\s\.\-]+")
+				forPackage = re.compile("[a-zA-Z\-]+")
+				process = Popen("pacman -Qm", shell=True, stdout=PIPE)
+				outOfDate = []
+				while True:
+					line = process.stdout.readline()
+					if line == "":
+						break
+					pac = forPackage.search(line).group(0)
+					url = "%s/%s/" % (baseURL, pac)
+					# print url
+					urlLines = []
+					for urlLine in urlopen(url).readlines():
+						urlLines.append(urlLine.strip())
+					for entry in urlLines:
+						detail = forLine.search(entry)
+						if detail != None:
+							# print detail.group(0), line[:-1]
+							if detail.group(0) != line[:-1]:
+								print pac
+								outOfDate.append(pac)
+				for pac in outOfDate:
+					sync(pac)
+			else:
+				print "Error: unknown flag: %s" % package
 	else:
 		sync(package)
 else:
