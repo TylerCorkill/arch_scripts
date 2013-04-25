@@ -87,6 +87,7 @@ alias commit="git commit -am"
 alias push="git push"
 alias pull="git pull"
 alias clone="git clone"
+alias udate="python2 ~/.custom/update.py"
 
 function db { cd $HOME/Dropbox/$@; }
 function cd { builtin cd "$@" && ls; }
