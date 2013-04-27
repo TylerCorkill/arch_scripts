@@ -38,7 +38,7 @@ if length > 0:
 		if length > 1:
 			# u for upgrade
 			if package[1] == "u":
-				forLine = re.compile("(?<=<h2>Package Details: )[\w\s\.\-]+")
+				forLine = re.compile("(?<=<h2>Package Details: )[\w\s\.\-:]+")
 				forPackage = re.compile("[a-zA-Z\-]+")
 				process = Popen("pacman -Qm", shell=True, stdout=PIPE)
 				outOfDate = []
@@ -61,6 +61,9 @@ if length > 0:
 								outOfDate.append(pac)
 				for pac in outOfDate:
 					sync(pac)
+			# l for list
+			elif package[1] == "l":
+				os.system("pacman -Qm")
 			else:
 				print "Error: unknown flag: %s" % package
 		else:
