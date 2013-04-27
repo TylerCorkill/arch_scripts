@@ -48,14 +48,12 @@ if length > 0:
 						break
 					pac = forPackage.search(line).group(0)
 					url = "%s/%s/" % (baseURL, pac)
-					# print url
 					urlLines = []
 					for urlLine in urlopen(url).readlines():
 						urlLines.append(urlLine.strip())
 					for entry in urlLines:
 						detail = forLine.search(entry)
 						if detail != None:
-							# print detail.group(0), line[:-1]
 							if detail.group(0) != line[:-1]:
 								print pac
 								outOfDate.append(pac)
