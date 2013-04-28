@@ -4,40 +4,41 @@ import os
 import re
 from subprocess import Popen, PIPE
 
-package = str(sys.argv[1])
 baseURL = "https://aur.archlinux.org/packages"
+args = len(sys.argv)
 
-def sync(package):
+def scan(package):
 	url = "%s/%s/" % (baseURL, package)
-	print url
 	urlLines = []
 	for line in urlopen(url).readlines():
 		urlLines.append(line.strip())
 	if len(urlLines) < 92:
-		print "Error: Package doesn't exist"
+		print "'%s' doesn't exist" % package
 	else:
-		forLine = re.compile(r">Download tarball</a>")
-		forUrl = re.compile(r"(?<=/packages)[a-z/-]+.tar.gz")
-		for line in urlLines:
-			if forLine.search(line) != None:
-				tarball = forUrl.search(line).group(0)
-				wget = "wget -P ~/.custom/aur %s%s" % (baseURL, tarball)
-				print wget
-				os.system(wget)
-				tar = "tar -zkxf ~/.custom/aur/%s.tar.gz -C ~/.custom/aur/" % package
-				cdTo = "cd ~/.custom/aur/%s" % package
-				make = "makepkg -is"
-				cdBack = "cd -"
-				rmDir = "rm -r ~/.custom/aur/%s" % package
-				rmTar = "rm ~/.custom/aur/%s.tar.gz" % package
-				os.system("( %s; %s; %s; %s; %s; %s; )" % (tar, cdTo, make, cdBack, rmDir, rmTar))
+		return urlLines
 
-length = len(package)
-if length > 0:
-	if package[0] == "-":
-		if length > 1:
+def sync(url, package):
+	forLine = re.compile(r">Download tarball</a>")
+	forUrl = re.compile(r"(?<=/packages)[a-z/-]+.tar.gz")
+	for line in url:
+		if forLine.search(line) != None:
+			tarball = forUrl.search(line).group(0)
+			cmd = "wget -P ~/.custom/aur %s%s"
+			os.system(cmd % (baseURL, tarball))
+			cmd = "( tar -zkxf ~/.custom/aur/"
+			cmd += package
+			cmd += ".tar.gz -C ~/.custom/aur/;"
+			cmd += " cd ~/.custom/aur/%s;" % package
+			cmd += " makepkg -is; cd -;"
+			cmd += " rm -r ~/.custom/aur/%s;" % package
+			cmd += " rm ~/.custom/aur/%s.tar.gz; )" % package
+			os.system(cmd)
+
+if args > 1:
+	if sys.argv[1][0] == "-":
+		if len(sys.argv) > 1:
 			# u for upgrade
-			if package[1] == "u":
+			if sys.argv[1][1] == "u":
 				forLine = re.compile("(?<=<h2>Package Details: )[\w\s\.\-:]+")
 				forPackage = re.compile("[a-zA-Z\-]+")
 				process = Popen("pacman -Qm", shell=True, stdout=PIPE)
@@ -47,26 +48,43 @@ if length > 0:
 					if line == "":
 						break
 					pac = forPackage.search(line).group(0)
-					url = "%s/%s/" % (baseURL, pac)
-					urlLines = []
-					for urlLine in urlopen(url).readlines():
-						urlLines.append(urlLine.strip())
-					for entry in urlLines:
-						detail = forLine.search(entry)
-						if detail != None:
-							if detail.group(0) != line[:-1]:
-								print pac
-								outOfDate.append(pac)
-				for pac in outOfDate:
-					sync(pac)
+					url = scan(pac)
+					if url:
+						for entry in url:
+							detail = forLine.search(entry)
+							if detail != None:
+								if detail.group(0) != line[:-1]:
+									print pac
+									sync(url, pac)
 			# l for list
-			elif package[1] == "l":
+			elif sys.argv[1][1] == "l":
 				os.system("pacman -Qm")
+			# s for search
+			elif sys.argv[1][1] == "s":
+				if args > 2:
+					for i in range(2,args):
+						if scan(sys.argv[i]):
+							print "'%s' exists" % sys.argv[i]
+				else:
+					print "Error: no argument"
+			# r for remove
+			elif sys.argv[1][1] == "r":
+				if args > 2:
+					cmd = ""
+					for i in range(2,args):
+						cmd += " "
+						cmd += sys.argv[i]
+					os.system("sudo pacman -R" + cmd)
+				else:
+					print "Error: no argument"
 			else:
-				print "Error: unknown flag: %s" % package
+				print "Error: unknown flag: %s" % sys.argv[1]
 		else:
 			print "Error: empty flag"
 	else:
-		sync(package)
+		for i in range(1,args):
+			url = scan(sys.argv[i])
+			if url:
+				sync(url,sys.argv[i])
 else:
 	print "Error: no argument"
