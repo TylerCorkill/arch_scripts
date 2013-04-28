@@ -42,7 +42,6 @@ if args > 1:
 				forLine = re.compile("(?<=<h2>Package Details: )[\w\s\.\-:]+")
 				forPackage = re.compile("[a-zA-Z\-]+")
 				process = Popen("pacman -Qm", shell=True, stdout=PIPE)
-				outOfDate = []
 				while True:
 					line = process.stdout.readline()
 					if line == "":
