@@ -91,6 +91,5 @@ alias sup="python2 ~/.custom/update.py"
 
 function db { cd $HOME/Dropbox/$@; }
 function cd { builtin cd "$@" && ls; }
-#function ty { yaourt "$@"; }
 function aur { python2 $HOME/.custom/aur.py "$@"; }
-#function ? { python2 $HOME/.custom/search.py "$@"; }
+function comp { commit "$@" && push; }
