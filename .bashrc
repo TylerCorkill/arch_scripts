@@ -2,6 +2,26 @@
 # ~/.bashrc
 #
 
+source /usr/share/doc/pkgfile/command-not-found.bash
+
+alias ..="cd .."
+alias ...="cd ../.."
+alias ....="cd ../../.."
+alias ls="ls --color"
+alias +="git add"
+alias ?="git status"
+alias commit="git commit -am"
+alias push="git push"
+alias pull="git pull"
+alias clone="git clone"
+alias sup="python2 ~/.custom/update.py"
+
+function db { cd $HOME/Dropbox/$@; }
+function cd { builtin cd "$@" && ls; }
+function aur { python2 $HOME/.custom/aur.py "$@"; }
+function comp { commit "$@" && push; }
+
+
 # If not running interactively, don't do anything
 [[ $- != *i* ]] && return
 
@@ -73,23 +93,3 @@ function usernamehost() {
 # \[\e]1;\]$(basename $(dirname $PWD))/\W\[\a\]
 
 PS1="\[\e]2;$PWD\[\a\]\[\e]1;\]$(basename "$(dirname "$PWD")")/\W\[\a\]${BOLD}\$(usernamehost)\[$GREEN\]\w\[$WHITE\]\$([[ -n \$(git branch 2> /dev/null) ]] && echo \" - \")\[$PURPLE\]\$(parse_git_branch)\[$WHITE\]\n\$ \[\033[0;37m\]"
-
-#source /etc/profile.d/cnf.sh
-source /usr/share/doc/pkgfile/command-not-found.bash
-
-alias ..="cd .."
-alias ...="cd ../.."
-alias ....="cd ../../.."
-alias ls="ls --color"
-alias +="git add"
-alias ?="git status"
-alias commit="git commit -am"
-alias push="git push"
-alias pull="git pull"
-alias clone="git clone"
-alias sup="python2 ~/.custom/update.py"
-
-function db { cd $HOME/Dropbox/$@; }
-function cd { builtin cd "$@" && ls; }
-function aur { python2 $HOME/.custom/aur.py "$@"; }
-function comp { commit "$@" && push; }
