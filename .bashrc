@@ -16,6 +16,7 @@ alias pull="git pull"
 alias clone="git clone"
 alias sup="python2 ~/.custom/update.py"
 
+function code { cd $HOME/Dropbox/code/$@; }
 function db { cd $HOME/Dropbox/$@; }
 function cd { builtin cd "$@" && ls; }
 function aur { python2 $HOME/.custom/aur.py "$@"; }
