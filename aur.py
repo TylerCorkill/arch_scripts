@@ -19,7 +19,7 @@ def scan(package):
 
 def sync(url, package):
 	forLine = re.compile(r">Download tarball</a>")
-	forUrl = re.compile(r"(?<=/packages)[a-z/-]+.tar.gz")
+	forUrl = re.compile(r"(?<=/packages)[a-z\d/-]+\.tar\.gz")
 	for line in url:
 		if forLine.search(line) != None:
 			tarball = forUrl.search(line).group(0)
