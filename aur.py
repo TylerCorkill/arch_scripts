@@ -30,7 +30,7 @@ def sync(url, package):
 			cmd += ".tar.gz -C ~/.custom/aur/;"
 			cmd += " cd ~/.custom/aur/%s;" % package
 			cmd += " makepkg -is; cd -;"
-			cmd += " rm -r ~/.custom/aur/%s;" % package
+			cmd += " sudo rm -r ~/.custom/aur/%s;" % package
 			cmd += " rm ~/.custom/aur/%s.tar.gz; )" % package
 			os.system(cmd)
 
