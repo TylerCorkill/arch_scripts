@@ -19,7 +19,7 @@ def scan(package):
 
 def sync(url, package):
 	forLine = re.compile(r">Download tarball</a>")
-	forUrl = re.compile(r"(?<=/packages)[a-z\d/-]+\.tar\.gz")
+	forUrl = re.compile(r"(?<=/packages)[a-z/\-\d]+\.tar\.gz")
 	for line in url:
 		if forLine.search(line) != None:
 			tarball = forUrl.search(line).group(0)
@@ -40,7 +40,7 @@ if args > 1:
 			# u for upgrade
 			if sys.argv[1][1] == "u":
 				forLine = re.compile("(?<=<h2>Package Details: )[\w\s\.\-:]+")
-				forPackage = re.compile("[a-zA-Z\-]+")
+				forPackage = re.compile("[a-zA-Z\-\d]+")
 				process = Popen("pacman -Qm", shell=True, stdout=PIPE)
 				while True:
 					line = process.stdout.readline()
