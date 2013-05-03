@@ -21,6 +21,10 @@ function db { cd $HOME/Dropbox/$@; }
 function cd { builtin cd "$@" && ls; }
 function aur { python2 $HOME/.custom/aur.py "$@"; }
 function comp { commit "$@" && push; }
+function sysup { sudo pacman -Syu; 
+				 aur -u; 
+				 sudo pkgfile -u;
+				 sup; }
 
 
 # If not running interactively, don't do anything
