@@ -4,11 +4,12 @@ import os
 import re
 from subprocess import Popen, PIPE
 
-baseURL = "https://aur.archlinux.org/packages"
-args = len(sys.argv)
-
 
 def scan(package):
+    """
+    Checks if package url exists
+
+    """
     url = "%s/%s/" % (baseURL, package)
     urlLines = []
     for line in urlopen(url).readlines():
@@ -16,11 +17,14 @@ def scan(package):
     if len(urlLines) < 92:
         print "'%s' doesn't exist" % package
         return
-    else:
-        return urlLines
+    return urlLines
 
 
 def sync(url, package):
+    """
+    Installer function
+
+    """
     forLine = re.compile(r">Download tarball</a>")
     forUrl = re.compile(r"(?<=/packages)[a-z/\-\d]+\.tar\.gz")
     for line in url:
@@ -40,8 +44,7 @@ def sync(url, package):
 
 def update():
     """
-    This function updates all packages
-
+    Updates all packages from aur
 
     """
     forLine = re.compile("(?<=<h2>Package Details: )[\w\s\.\-:]+")
@@ -62,10 +65,20 @@ def update():
                     print pac
                     sync(url, pac)
 
+
 def listPkgs():
+    """
+    Lists local packages from aur
+
+    """
     os.system("pacman -Qm")
 
+
 def search():
+    """
+    Searches for packages
+
+    """
     if args > 2:
         for i in range(2, args):
             if scan(sys.argv[i]):
@@ -73,7 +86,12 @@ def search():
     else:
         print "Error: no argument"
 
+
 def remove():
+    """
+    Removes packages
+
+    """
     if args > 2:
         cmd = ""
         for i in range(2, args):
@@ -83,23 +101,27 @@ def remove():
     else:
         print "Error: no argument"
 
-if args > 1:
-    if sys.argv[1][0] == "-":
-        if len(sys.argv) > 1:
-            functions = {'u': update,
-                         'l': listPkgs,
-                         's': search,
-                         'r': remove}
-            if sys.argv[1][1] in functions:
-                functions[sys.argv[1][1]]()
+
+if __name__ == "__main__":
+    baseURL = "https://aur.archlinux.org/packages"
+    args = len(sys.argv)
+    if args > 1:
+        if sys.argv[1][0] == "-":
+            if len(sys.argv) > 1:
+                functions = {'u': update,
+                             'l': listPkgs,
+                             's': search,
+                             'r': remove}
+                if sys.argv[1][1] in functions:
+                    functions[sys.argv[1][1]]()
+                else:
+                    print "Error: unknown flag: %s" % sys.argv[1]
             else:
-                print "Error: unknown flag: %s" % sys.argv[1]
+                print "Error: empty flag"
         else:
-            print "Error: empty flag"
+            for i in range(1, args):
+                url = scan(sys.argv[i])
+                if url:
+                    sync(url, sys.argv[i])
     else:
-        for i in range(1, args):
-            url = scan(sys.argv[i])
-            if url:
-                sync(url, sys.argv[i])
-else:
-    print "Error: no argument"
+        print "Error: no argument"
