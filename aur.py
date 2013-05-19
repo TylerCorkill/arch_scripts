@@ -28,18 +28,16 @@ def sync(url, package):
     forLine = re.compile(r">Download tarball</a>")
     forUrl = re.compile(r"(?<=/packages)[a-z/\-\d]+\.tar\.gz")
     for line in url:
-        if forLine.search(line) != None:
-            tarball = forUrl.search(line).group(0)
-            cmd = "wget -P ~/.custom/aur %s%s"
-            os.system(cmd % (baseURL, tarball))
-            cmd = "( tar -zkxf ~/.custom/aur/"
-            cmd += package
-            cmd += ".tar.gz -C ~/.custom/aur/;"
-            cmd += " cd ~/.custom/aur/%s;" % package
-            cmd += " makepkg -is; cd -;"
-            cmd += " sudo rm -r ~/.custom/aur/%s;" % package
-            cmd += " rm ~/.custom/aur/%s.tar.gz; )" % package
-            os.system(cmd)
+        if forLine.search(line) is not None:
+            os.system("wget -P ~/.custom/aur %s%s" % (
+                baseURL, forUrl.search(line).group(0)))
+            os.system("( tar -zkxf ~/.custom/aur/{0}"
+                      ".tar.gz -C ~/.custom/aur/;"
+                      " cd ~/.custom/aur/{0};"
+                      " makepkg -is; cd -;"
+                      " sudo rm -r ~/.custom/aur/{0};"
+                      " rm ~/.custom/aur/{0}.tar.gz; )"
+            .format(package))
 
 
 def update():
