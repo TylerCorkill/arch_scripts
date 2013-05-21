@@ -25,6 +25,11 @@ function sysup { sudo pacman -Syu;
 				 aur -u; 
 				 sudo pkgfile -u;
 				 sup; }
+function lscmds
+{
+    echo -n $PATH | xargs -d : -I {} find {} -maxdepth 1 \
+        -executable -type f -printf '%P\n' | sort -u
+}
 
 
 # If not running interactively, don't do anything
