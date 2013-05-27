@@ -1,11 +1,9 @@
 import os
 
-files = [".bashrc",
-		 ".bash_profile",
-		 ".bash_logout"]
-for f in files:
-	os.system("rm ~/%s" % f)
-	os.system("ln ~/.custom/%s ~/%s" % (f,f))
+for f in ['.bashrc',
+          '.bash_profile',
+          '.bash_logout']:
+    os.system('rm ~/{0};'
+              'ln ~/.custom/{0} ~/{0}'.format(f))
+
 print "Updated bash files"
-os.system("sudo rm -r ~/.custom/aur")
-os.system("mkdir ~/.custom/aur")

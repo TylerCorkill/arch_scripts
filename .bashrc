@@ -14,13 +14,16 @@ alias commit="git commit -am"
 alias push="git push"
 alias pull="git pull"
 alias clone="git clone"
-alias sup="python2 ~/.custom/update.py"
 
 function code { cd $HOME/Dropbox/code/$@; }
 function db { cd $HOME/Dropbox/$@; }
 function cd { builtin cd "$@" && ls; }
 function aur { python2 $HOME/.custom/aur.py "$@"; }
 function comp { commit "$@" && push; }
+function sup { builtin cd ~/.custom;
+			   git pull;
+			   python2 setup.py;
+			   builtin cd -; }
 function sysup { sudo pacman -Syu; 
 				 aur -u; 
 				 sudo pkgfile -u;
