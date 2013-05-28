@@ -24,8 +24,7 @@ function sup { builtin cd ~/.custom;
 			   git pull;
 			   python2 setup.py;
 			   builtin cd -; }
-function sysup { sudo pacman -Syu; 
-				 aur -u; 
+function sysup { sudo pacaur -Syu; 
 				 sudo pkgfile -u;
 				 sup; }
 function lscmds
