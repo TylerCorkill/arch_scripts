@@ -34,8 +34,9 @@ def sync(package):
         os.system(' tar -zkxf ~/.custom/aur/{0}.tar.gz'
                   ' -C ~/.custom/aur/;'
                   ' cd ~/.custom/aur/{0};'
-                  ' makepkg -is; rm -fr *;'
-                  ' cd -;'.format(package))
+                  ' makepkg -is;'
+                  ' cd -;'
+                  ' rm -fr ~/.custom/aur/*;'.format(package))
 
 
 def update():
