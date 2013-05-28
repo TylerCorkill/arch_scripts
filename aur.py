@@ -31,7 +31,7 @@ def sync(package):
                                           r'[a-z/\-\d]+\.tar\.gz')):
         os.system('wget -P ~/.custom/aur '
                   'https://aur.archlinux.org/packages%s' % value)
-        os.system('( tar -zkxf ~/.custom/aur/{0}.tar.gz'
+        os.system(' tar -zkxf ~/.custom/aur/{0}.tar.gz'
                   ' -C ~/.custom/aur/;'
                   ' cd ~/.custom/aur/{0};'
                   ' makepkg -is; rm -fr *;'
