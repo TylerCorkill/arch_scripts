@@ -18,7 +18,6 @@ alias clone="git clone"
 function code { cd $HOME/Dropbox/code/$@; }
 function db { cd $HOME/Dropbox/$@; }
 function cd { builtin cd "$@" && ls; }
-function aur { python2 $HOME/.custom/aur.py "$@"; }
 function comp { commit "$@" && push; }
 function sup { builtin cd ~/.custom;
 			   git pull;
