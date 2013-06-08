@@ -6,7 +6,6 @@ for f in ['.bashrc',
     os.system('rm ~/{0};'
               'ln ~/.custom/{0} ~/{0}'.format(f))
 
-os.system('sudo rm /etc/bash.bashrc;'
-          'sudo cat ~/.custom/bash.bashrc > /etc/bash.bashrc')
+os.system('cat ~/.custom/bash.bashrc | sudo tee /etc/bash.bashrc')
 
 print "Updated bash files"
