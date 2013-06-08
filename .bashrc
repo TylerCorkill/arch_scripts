@@ -88,10 +88,10 @@ function parse_git_branch() {
 }
 
 # Only show username/host if not default
-function usernamehost() {
-	if [ $USER != $default_username ]; then echo "${MAGENTA}$USER$WHITE|"; fi
-	if [ $HOSTNAME != $default_hostname ]; then echo "${ORANGE}$HOSTNAME$WHITE:"; fi
-}
+# function usernamehost() {
+# 	if [ $USER != $default_username ]; then echo "${MAGENTA}$USER$WHITE|"; fi
+# 	if [ $HOSTNAME != $default_hostname ]; then echo "${ORANGE}$HOSTNAME$WHITE:"; fi
+# }
 
 # iTerm Tab and Title Customization and prompt customization
 # http://sage.ucsc.edu/xtal/iterm_tab_customization.html
