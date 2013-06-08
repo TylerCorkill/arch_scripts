@@ -107,9 +107,9 @@ function usernamehost() {
 # PS1="\[\e]2;$PWD\[\a\]\[\e]1;\]$(basename "$(dirname "$PWD")")/\W\[\a\]${BOLD}\$(usernamehost)\[$GREEN\]\w\[$WHITE\]\$([[ -n \$(git branch 2> /dev/null) ]] && echo \" - \")\[$PURPLE\]\$(parse_git_branch)\[$WHITE\]\n\$ \[\033[0;37m\]"
 
 if [ $USER != $default_username ]; then
-	PS1="${BOLD}${MAGENTA}$USER${WHITE}@${ORANGE}$HOSTNAME${WHITE}:${GREEN}\w${WHITE}([[ -n \$(git branch 2> /dev/null) ]] && echo \" - \")${PURPLE}\$(parse_git_branch)${WHITE}\n\$ \[\033[0;37m\]";
+	PS1="${BOLD}${MAGENTA}$USER${WHITE}@${ORANGE}$HOSTNAME${WHITE}:${GREEN}\w${WHITE}\$([[ -n \$(git branch 2> /dev/null) ]] && echo \" - \")${PURPLE}\$(parse_git_branch)${WHITE}\n\$ \[\033[0;37m\]";
 elif [ $HOSTNAME != $default_hostname ]; then
-	PS1="${BOLD}${ORANGE}$HOSTNAME${WHITE}:${GREEN}\w${WHITE}([[ -n \$(git branch 2> /dev/null) ]] && echo \" - \")${PURPLE}\$(parse_git_branch)${WHITE}\n\$ \[\033[0;37m\]";
+	PS1="${BOLD}${ORANGE}$HOSTNAME${WHITE}:${GREEN}\w${WHITE}\$([[ -n \$(git branch 2> /dev/null) ]] && echo \" - \")${PURPLE}\$(parse_git_branch)${WHITE}\n\$ \[\033[0;37m\]";
 else
 	PS1="${BOLD}${GREEN}\w${WHITE}\$([[ -n \$(git branch 2> /dev/null) ]] && echo \" - \")${PURPLE}\$(parse_git_branch)${WHITE}\n\$ \[\033[0;37m\]";
 fi
