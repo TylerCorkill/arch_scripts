@@ -16,6 +16,7 @@ alias pull="git pull"
 alias clone="git clone"
 #alias minecraft="java -Xmx1024M -Xms1024M -jar /home/tsx525/Games/minecraft.jar"
 alias rpi="ssh 192.168.3.40"
+alias j="python2 /home/tsx525/.custom/journal.py"
 
 function code { cd $HOME/Dropbox/code/$@; }
 function db { cd $HOME/Dropbox/$@; }
