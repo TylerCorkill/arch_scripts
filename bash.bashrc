@@ -12,6 +12,7 @@ alias commit="git commit -am"
 alias push="git push"
 alias pull="git pull"
 alias clone="git clone"
+alias kfix="rm ~/.kde4/share/config/kwinrc"
 
 function code { cd $HOME/Dropbox/code/$@; }
 function db { cd $HOME/Dropbox/$@; }
